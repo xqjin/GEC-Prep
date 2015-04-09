@@ -50,7 +50,8 @@ def Feature(input1,input2,input3,output1,istrain):
 
 				sent = processed[nid][pid][sid]
 
-				POSP = getPOSPositionInSent(sent,["IN","TO","VB"])
+				POSP = getPOSPositionInSent(sent,["IN","TO",])
+				#POSP = getPOSPositionInSent(sent,["IN","TO","VB"])
 
 				ASW = getAnnotationSourceWord(ann,sent,nid,pid,sid,ET="Prep")
 

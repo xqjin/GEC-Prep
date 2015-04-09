@@ -11,6 +11,26 @@ import parseNumTree as pnt
 from stemming.porter2 import stem
 import nltk
 
+"""
+对数据进行归一化操作：
+	归一化的结果为：均值为零，方差为1
+
+输入数据的格式为：
+
+infor
+wordvec1
+wordvec2
+wordvec3
+...
+
+wordvecL
+
+.
+.
+.
+
+
+"""
 def uniform(input1,output1,wordL=8,vectorL=50):
 	mean = calculateMean(input1,wordL,vectorL)
 	variance = calculateVariance(input1,mean,wordL,vectorL)

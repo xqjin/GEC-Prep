@@ -71,17 +71,17 @@ class ProcessPrep(object):
 
 	def getVectorFeature(self):
 
+		#execute only when the token is change!
 		#getIndex2Word(self.trainToken,self.testToken,self.word2vecWI,self.traintestIW)
-
 		#getTrainTestVec(self.traintestIW,self.word2vecVec,self.traintestVec)
 
-		#VectorFeature(self.traintestVec,self.trainToken,self.validateVec,self.trainVec,True)
-		#VectorFeature(self.traintestVec,self.testToken,self.validateVec,self.testVec,False)
-
-
-		uniform(self.trainVec,self.trainUVec)
-		uniform(self.testVec,self.testUVec)
-		uniform(self.validateVec,self.validateUVec)
+		# 提取特征
+		VectorFeature(self.traintestVec,self.trainToken,self.validateVec,self.trainVec,True)
+		VectorFeature(self.traintestVec,self.testToken,self.validateVec,self.testVec,False)
+		# 归一化操作
+		#uniform(self.trainVec,self.trainUVec)
+		#uniform(self.testVec,self.testUVec)
+		#uniform(self.validateVec,self.validateUVec)
 
 	def makeOutput(self):
 		ProcessTest(self.DNNResult,self.ptestSentence,self.DNNCorrectRes)
@@ -103,7 +103,7 @@ if __name__ == "__main__":
 	Prep = ProcessPrep()
 	#Prep.preprocessTrainTest()
 	#Prep.getTokenFeature()
-	#Prep.getVectorFeature()
-	Prep.makeOutput()
+	Prep.getVectorFeature()
+	#Prep.makeOutput()
 	#Prep.makePrepM2()  # need to run one time
-	Prep.evaluateRes()
+	#Prep.evaluateRes()

@@ -142,10 +142,20 @@ def VectorFeature(ifile1="traintestvec",ifile2="train or test token file",ifile3
 		pre.append(SW)
 		pre.append(AW)
 
+
+		notWord = 0
+
 		for l in line[7:]:
+			tempVec= W2V.get(l,"NOTFOUND")
+			if tempVec == "NOTFOUND":
+				notWord += 1
+
 			temp.append(W2V.get(l,defaultVec))
+		
 		else:
 
+			if notWord >=4:
+				continue
 			if (istrain and num%CV!=0) or (not istrain):
 				# record the catalogy num!
 				KVNum.setdefault(AW,0)
@@ -180,7 +190,7 @@ def VectorFeature(ifile1="traintestvec",ifile2="train or test token file",ifile3
 def isSkip(SW,AW):
 	reval = False
 	if SW == AW and AW=="0":
-		temp = random.randint(1,16)
+		temp = random.randint(1,8)
 		if temp != 2:
 			reval = True
 
