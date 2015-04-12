@@ -6,14 +6,16 @@ from utils.text2pickle import *
 from utils.tokenFeature import *
 from utils.word2vecFeature import *
 from utils.ProcessTest import *
-from utils.makeAnn import *
+from utils.makeAnn import makeAnn
 from utils.uniform import *
 from scripts.m2scorer import evaluateIt
 
-class ProcessPrep(object):
-	"""docstring for ProcessPrep"""
+
+
+class ProcessArtOrDet(object):
+	"""docstring for ProcessArtOrDet"""
 	def __init__(self):
-		super(ProcessPrep,self).__init__()
+		super(ProcessArtOrDet,self).__init__()
 
 		self.trainConll = configure.fCorpusTrainConll
 		self.ptrainConll = configure.fCorpusPickleTrainConll
@@ -31,34 +33,39 @@ class ProcessPrep(object):
 		self.testAnn = configure.fCorpusTestAnn
 		self.ptestAnn = configure.fCorpusPickleTestAnn
 
+		# For word2vec the same to article and prep;
 		self.word2vecWI = configure.fword2vecWI
 		self.word2vecUWI = configure.fword2vecUWI
 		self.word2vecVec = configure.fword2vecVec
 
+		#the annotation file is the same for article and prep
 		self.testM2 = configure.fCorpusTestM2
 		self.perpM2 = configure.fCorpusTestPrepM2
+		self.artM2 = configure.fCorpusTestArtOrDetM2
+
+
 
 		#From Here is different!    -----------------------   From Here is different! #
+		self.trainToken = configure.fTrainTokenArt
+		self.testToken = configure.fTestTokenArt
 
-		self.trainToken = configure.fTrainTokenPrep
-		self.testToken = configure.fTestTokenPrep
+		self.traintestIW = configure.fTrainTestIWArt
+		self.traintestVec = configure.fTrainTestVecArt
 
-		self.traintestIW = configure.fTrainTestIWPrep
-		self.traintestVec = configure.fTrainTestVecPrep
+		self.validateVec =configure.fValidateVecArt
+		self.trainVec =configure.fTrainVecArt
+		self.testVec =configure.fTestVecArt
 
-		self.validateVec =configure.fValidateVecPrep
-		self.trainVec =configure.fTrainVecPrep
-		self.testVec =configure.fTestVecPrep
+		self.validateUVec =configure.fValidateUVecArt
+		self.trainUVec =configure.fTrainUVecArt
+		self.testUVec =configure.fTestUVecArt
 
-		self.validateUVec =configure.fValidateUVecPrep
-		self.trainUVec =configure.fTrainUVecPrep
-		self.testUVec =configure.fTestUVecPrep
+		self.CNNResult = configure.fCNNResultArt
+		self.CNNCorrectRes = configure.fCNNCorrectResArt
 
-		self.CNNResult = configure.fCNNResultPrep
-		self.CNNCorrectRes = configure.fCNNCorrectResPrep
+		self.POSTAG = ["DT","NN"]
+		self.ET = "ArtOrDet"
 
-		self.POSTAG = ["IN","TO"]
-		self.ET = "Prep"
 
 	def preprocessTrainTest(self):
 
@@ -79,8 +86,9 @@ class ProcessPrep(object):
 		getTrainTestVec(self.traintestIW,self.word2vecVec,self.traintestVec)
 
 		# 提取特征
-		#VectorFeature(self.traintestVec,self.trainToken,self.validateVec,self.trainVec,True,False)
-		#VectorFeature(self.traintestVec,self.testToken,self.validateVec,self.testVec,False,False)
+		#VectorFeature(self.traintestVec,self.trainToken,self.validateVec,self.trainVec,True,True)
+		#VectorFeature(self.traintestVec,self.testToken,self.validateVec,self.testVec,False,True)
+		
 		# 归一化操作
 		#uniform(self.trainVec,self.trainUVec)
 		#uniform(self.testVec,self.testUVec)
@@ -88,26 +96,27 @@ class ProcessPrep(object):
 
 	def makeOutput(self):
 		#ProcessTest("123",self.ptestSentence,self.DNNCorrectRes)
-		ProcessTest(self.CNNResult,self.ptestSentence,self.CNNCorrectRes,False)
+		ProcessTest(self.CNNResult,self.ptestSentence,self.CNNCorrectRes,True)
 
 
-	def makePrepM2(self):
-		makeAnn(self.testM2,self.perpM2,tag="Prep")
+	def makeM2(self):
+		print "Dot need to execute everytime!"
+		makeAnn(self.testM2,self.artM2,tag="ArtOrDet")
 
 
 	def evaluateRes(self):
 		verbose = True 
-		p,r,f1 = evaluateIt(self.CNNCorrectRes,self.perpM2,verbose)
+		p,r,f1 = evaluateIt(self.CNNCorrectRes,self.artM2,verbose)
 		if not verbose:
 			print "p:\t",p
 			print "r:\t",r
 			print "f:\t",f1
 
+
 if __name__ == "__main__":
-	Prep = ProcessPrep()
-	#Prep.preprocessTrainTest()
-	#Prep.getTokenFeature()
-	#Prep.getVectorFeature()
-	Prep.makeOutput()
-	Prep.makePrepM2()  # need to run one time
-	Prep.evaluateRes()
+	ArtOrDet = ProcessArtOrDet()
+	#ArtOrDet.getTokenFeature()
+	#ArtOrDet.getVectorFeature()
+	ArtOrDet.makeOutput()
+	#ArtOrDet.makeM2()  # need to run one time
+	ArtOrDet.evaluateRes()

@@ -8,7 +8,8 @@ import os
 import configure
 import parseNumTree as pnt
 from stemming.porter2 import stem
-from Key2Value import KV
+from Key2Value import PrepKV as PKV
+from Key2Value import ArtKV as AKV
 import nltk
 
 
@@ -23,8 +24,6 @@ def isword(word):
 
 	else:
 		return True
-
-
 
 def getToken(ifile,wordset):
 
@@ -94,7 +93,7 @@ def getTrainTestVec(ifile1="traintestIW",ifile2="p2vec",ofile="traintestvec"):
 			pickle.dump(TT2V,fw)
 			fw.close()
 
-def VectorFeature(ifile1="traintestvec",ifile2="train or test token file",ifile3="validation",ifile4="vectrain",istrain="False"):
+def VectorFeature(ifile1="traintestvec",ifile2="train or test token file",ifile3="validation",ifile4="vectrain",istrain="False",isArt=True):
 	# We only process this error this time !!!
 	#[nid,pid,sid,posi,ti,sw,aw,words]
 
@@ -102,28 +101,26 @@ def VectorFeature(ifile1="traintestvec",ifile2="train or test token file",ifile3
 	KVNum = dict()
 
 	# load the train and test vector !
-	fr = open(ifile1,'rb')
-	W2V = pickle.load(fr)
-	fr.close()
+	W2V = pickle.load(open(ifile1,'rb'))
 
-	global CV
-
-	global default
+	global CV,default
 	defaultVec = W2V[default]
 
 	num = 1  # To record the number of instance in the train or file !!
 
-	fr = open(ifile2,'r')
-	
-	if istrain:fw_v = open(ifile3,'w')
+	fr   = open(ifile2,'r')
 	fw_t = open(ifile4,'w')
+	if istrain:fw_v = open(ifile3,'w')
 
-
+	# load the proper key-value dict from the KV 
+	if isArt:
+		KV = AKV
+	else:
+		KV = PKV
+	
 	while True:
 		line = fr.readline()[:-1]
-
-		if not line:
-			break
+		if not line: break
 
 		line = line.lower().split()
 
@@ -134,14 +131,11 @@ def VectorFeature(ifile1="traintestvec",ifile2="train or test token file",ifile3
 		SW  = KV.get(line[5],-1) 
 		AW  = KV.get(line[6],-1)
 
-
 		if SW==-1 or AW == -1 or isSkip(SW,AW):
 			continue
 
-
 		pre.append(SW)
 		pre.append(AW)
-
 
 		notWord = 0
 
@@ -150,29 +144,23 @@ def VectorFeature(ifile1="traintestvec",ifile2="train or test token file",ifile3
 			if tempVec == "NOTFOUND":
 				notWord += 1
 
-			temp.append(W2V.get(l,defaultVec))
-		
+			temp.append(W2V.get(l,defaultVec))		
 		else:
-
-			if notWord >=4:
-				continue
+			if notWord >=4:continue
 			if (istrain and num%CV!=0) or (not istrain):
 				# record the catalogy num!
 				KVNum.setdefault(AW,0)
 				KVNum[AW] += 1
 
 				fw_t.write("\t".join(pre)+"\n")
-
 				for t in temp:
 					fw_t.write("\t".join(t)+"\n")
 			else:
 				fw_v.write("\t".join(pre)+"\n")
-
 				for t in temp:
 					fw_v.write("\t".join(t)+"\n")
 
 			num += 1
-
 
 	# output the information about the train or test file!!
 	total = 0
@@ -185,7 +173,6 @@ def VectorFeature(ifile1="traintestvec",ifile2="train or test token file",ifile3
 		total += v
 	else:
 		print "total Num is ",total
-
 
 def isSkip(SW,AW):
 	reval = False

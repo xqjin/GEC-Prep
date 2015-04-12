@@ -10,12 +10,17 @@ pCorpusTest  = phome + 'Graduate/Corpus/NUCLE/test/'
 
 pCorpusPickle = phome + 'Graduate/Corpus/NUCLE/pickle/'
 
-pTokenFile = phome + 'Graduate/Corpus/Prep/tokenFeature/'
-pVectorFile = phome + 'Graduate/Corpus/Prep/vectorFeature/'
+pTokenFilePrep = phome + 'Graduate/Corpus/Prep/tokenFeature/'
+pVectorFilePrep = phome + 'Graduate/Corpus/Prep/vectorFeature/'
+
+
+pTokenFileArt = phome + 'Graduate/Corpus/ArtOrDet/tokenFeature/'
+pVectorFileArt = phome + 'Graduate/Corpus/ArtOrDet/vectorFeature/'
 
 pCorpusWord2vec = phome + "Graduate/Corpus/word2vec/"
 
 pOutputPrep = phome + "Graduate/Output/Prep/"
+pOutputArt = phome + "Graduate/Output/ArtOrDet/"
 
 
 # train *.conll 文件的位置,已经处理pickle结果存放的位置;
@@ -33,6 +38,8 @@ fCorpusPickleTestSentence = pCorpusPickle + 'test.sentence'
 # modify file of the prep!
 fCorpusTestM2 = pCorpusTest + "official-preprocessed.m2"
 fCorpusTestPrepM2 = pCorpusTest + "Perp.m2"
+fCorpusTestArtOrDetM2 = pCorpusTest + "ArtOrDet.m2"
+
 
 # train *.ann position
 fCorpusTrainAnn = pCorpusTrain + 'conll13st-preprocessed.conll.ann'
@@ -42,48 +49,86 @@ fCorpusPickleTrainAnn = pCorpusPickle + 'train.ann'
 fCorpusTestAnn = pCorpusTest + 'official-preprocessed.conll.ann'
 fCorpusPickleTestAnn = pCorpusPickle + 'test.ann'
 
-
-fTrainToken = pTokenFile + "trainTokenFeature.prep"
-fTestToken  = pTokenFile + "testTokenFeature.prep"
-
-
+#the word2vec's path 
 fword2vecWI  = pCorpusWord2vec + "word2vec/index/word_index.dict"
 fword2vecUWI = pCorpusWord2vec + "word2vec/uindex/word_index.dict"
 fword2vecVec = pCorpusWord2vec + "word2vec/vector/word2vec%s.dict"
 fword2vecUVec = pCorpusWord2vec + "word2vec/uvector/word2vec%s.dict"
 
-fTrainTestIW = pVectorFile + "temp/traintestIW.dict"
-fTrainTestVec = pVectorFile + "temp/traintestVec.dict"
 
-fTrainVec = pVectorFile + "train.vec"
-fTrainUVec = pVectorFile + "train.uvec"
+#######  The upper is the same  ########   The upper is the same   ########
+#######  The upper is the same  ########   The upper is the same   ########
+#######  The upper is the same  ########   The upper is the same   ########
 
-fValidateVec = pVectorFile + "validate.vec"
-fValidateUVec = pVectorFile + "validate.uvec"
 
-fTestVec = pVectorFile + "test.vec"
-fTestUVec = pVectorFile + "test.uvec"
+fTrainTokenPrep = pTokenFilePrep + "trainTokenFeature.prep"
+fTestTokenPrep  = pTokenFilePrep + "testTokenFeature.prep"
 
-fDNNModel = pOutputPrep + "/DNN/model/DNN-";
-fDNNResult =pOutputPrep + "/DNN/Result/DNN.result";
-fDNNCorrectRes =pOutputPrep + "/DNN/Result/DNNCorrect.result";
+fTrainTokenArt = pTokenFileArt + "trainTokenFeature.art"
+fTestTokenArt  = pTokenFileArt + "testTokenFeature.art"
 
 
 
+fTrainTestIWPrep = pVectorFilePrep + "temp/traintestIW.dict"
+fTrainTestVecPrep = pVectorFilePrep + "temp/traintestVec.dict"
+
+fTrainTestIWArt = pVectorFileArt + "temp/traintestIW.dict"
+fTrainTestVecArt = pVectorFileArt + "temp/traintestVec.dict"
 
 
 
+fTrainVecPrep = pVectorFilePrep + "train.vec"
+fTrainUVecPrep = pVectorFilePrep + "train.uvec"
+
+fTrainVecArt = pVectorFileArt + "train.vec"
+fTrainUVecArt = pVectorFileArt + "train.uvec"
 
 
 
+fSubTrainVecPrep = pVectorFilePrep + "subtrain.vec"
+fSubTrainUVecPrep = pVectorFilePrep + "subtrain.uvec"
+
+fSubTrainVecArt = pVectorFileArt + "subtrain.vec"
+fSubTrainUVecArt = pVectorFileArt + "subtrain.uvec"
 
 
+
+fValidateVecPrep = pVectorFilePrep + "validate.vec"
+fValidateUVecPrep = pVectorFilePrep + "validate.uvec"
+
+fValidateVecArt = pVectorFileArt + "validate.vec"
+fValidateUVecArt = pVectorFileArt + "validate.uvec"
+
+
+
+fTestVecPrep = pVectorFilePrep + "test.vec"
+fTestUVecPrep = pVectorFilePrep + "test.uvec"
+
+fTestVecArt = pVectorFileArt + "test.vec"
+fTestUVecArt = pVectorFileArt + "test.uvec"
+
+
+
+fDNNModelPrep = pOutputPrep + "DNN/model/DNN-"
+fDNNResultPrep =pOutputPrep + "DNN/Result/DNN.result"
+fDNNCorrectResPrep =pOutputPrep + "DNN/Result/DNNCorrect.result"
+
+fDNNModelArt = pOutputArt + "DNN/model/DNN-"
+fDNNResultArt =pOutputArt + "DNN/Result/DNN.result"
+fDNNCorrectResArt =pOutputArt + "DNN/Result/DNNCorrect.result"
+
+
+fCNNModelPrep = pOutputPrep + "CNN/model/CNN-"
+fCNNResultPrep = pOutputPrep + "CNN/Result/CNN.result"
+fCNNCorrectResPrep = pOutputPrep + "CNN/Result/CNNCorrect.result"
+
+fCNNModelArt = pOutputArt + "CNN/model/CNN-"
+fCNNResultArt = pOutputArt + "CNN/Result/CNN.result"
+fCNNCorrectResArt = pOutputArt + "CNN/Result/CNNCorrect.result"
 
 
 
 """
-
-
 PCorpusWord2vec = phome + "Graduate/Corpus/word2vec/"
 # 设置程序交叉验证使用相应的训练和测试数据，未经处理过的
 pCorpusCV = phome + 'Graduate/Corpus/CV/'
@@ -98,9 +143,6 @@ pCVNumFeature = phome + 'Graduate/Output/CVFeature/num/'
 
 pTokenFeature = phome + 'Graduate/Output/Feature/token/'
 pNumFeature = phome + 'Graduate/Output/Feature/num/'
-
-
-
 
 
 # 保存提取出的特征，特征用token的形式表示，没有经过编码
@@ -130,8 +172,6 @@ fCorpusTestM2 = pCorpusTest + "official-preprocessed.m2"
 fOutputResultDet = pOutputResult + 'test.det'
 
 
-
-
 pCorpusText = "/home/xqjin/Code/CodeBlocks/NN/model/"
 
 pCorpusTextModel = pCorpusText + "dbn.model"
@@ -145,10 +185,6 @@ pCorpusTextParaP = pCorpusText + "modelP"
 pCorpusTextParaVBE = pCorpusText + "modelVBE"
 
 fCorpusWord2vecAcc = PCorpusWord2vec + "acc_vec"
-
-
-
-
 
 #Can del del  del del del del del del  #Can del del  del del del del del del 
 
